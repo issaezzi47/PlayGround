@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#101611">
+  <title>FIELD OPS — Tactical FPS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="world" aria-label="3D tactical shooter game"></canvas>
+    <div class="film-grain"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Field Ops home"><span class="brand-mark">F</span><span>FIELD<span class="brand-light">OPS</span></span></a>
+      <div class="top-status"><span class="status-dot"></span> SECTOR 07 <i></i> LIVE EXERCISE</div>
+      <button class="icon-btn settings-btn" aria-label="Settings">☼</button>
+    </header>
+
+    <section class="menu-screen" id="menu-screen">
+      <div class="menu-shade"></div>
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> MULTIPLAYER COMBAT SIMULATION</p>
+        <h1>OWN THE<br><em>GROUND.</em></h1>
+        <p class="hero-sub">Drop in. Adapt. Make every shot count.</p>
+        <div class="hero-meta"><span>SEASON 04</span><b></b><span>TACTICAL OPERATIONS</span></div>
+      </div>
+      <div class="menu-panel">
+        <div class="panel-heading"><div><span class="eyebrow">DEPLOYMENT</span><h2>Choose your op</h2></div><span class="online-pill"><i></i> SYSTEM READY</span></div>
+        <button class="mode-card selected" data-mode="bots">
+          <span class="mode-icon">⌖</span><span class="mode-copy"><strong>COMBAT TRAINING</strong><small>Face off against adaptive AI operators</small></span><span class="mode-arrow">↗</span>
+        </button>
+        <button class="mode-card" data-mode="online">
+          <span class="mode-icon people-icon">◉</span><span class="mode-copy"><strong>ONLINE OPERATORS</strong><small>Local multiplayer lobby · 2–8 players</small></span><span class="mode-arrow">↗</span>
+        </button>
+        <div class="map-row"><div><span class="eyebrow">BATTLEFIELD</span><strong id="map-name">THE DUSTLINE</strong><small id="map-detail">Al Mazrah · 12:40 · Clear</small></div><button id="map-cycle" class="cycle-btn" aria-label="Choose a random map">↻ <span>RANDOM</span></button></div>
+        <button id="deploy-btn" class="deploy-btn"><span>DEPLOY TO BATTLE</span><b>→</b></button>
+        <p class="panel-foot">RANDOM INSERTION <span>·</span> 6 OPERATORS <span>·</span> FREE-FOR-ALL</p>
+      </div>
+      <div class="hero-bottom"><span>BUILT FOR THE FRONT LINE</span><div class="scroll-line"></div><span>SCROLL TO EXPLORE</span></div>
+      <div class="menu-notice" id="online-note" hidden>Online matchmaking needs a game server. This build opens a local practice lobby so you can play immediately.</div>
+    </section>
+
+    <section class="hud" id="hud" hidden>
+      <div class="hud-top-left"><div class="objective-tag"><span class="objective-dot"></span><div><b>FREE-FOR-ALL</b><small>FIRST TO 20 ELIMS</small></div></div><div class="location-tag"><span>⌖</span><span id="hud-map">THE DUSTLINE</span></div></div>
+      <div class="scoreboard"><span class="score-label">YOUR SCORE</span><strong id="score">00</strong><span class="score-divider">/</span><span>20</span></div>
+      <div class="hud-top-right"><div class="timer"><small>TIME REMAINING</small><strong id="timer">08:00</strong></div><div class="minimap-wrap"><canvas id="minimap" width="164" height="164"></canvas><span class="map-north">N</span></div></div>
+      <div class="killfeed" id="killfeed"></div>
+      <div class="center-message" id="center-message"><span>ROUND STARTING</span><strong>GET READY</strong></div>
+      <div class="hit-marker" id="hit-marker"><i></i><b></b></div>
+      <div class="damage-vignette" id="damage-vignette"></div>
+      <div class="bottom-left"><div class="health-line"><span>VITALS</span><strong id="health-value">100</strong></div><div class="health-bar"><i id="health-fill"></i></div><div class="armor-line"><span>ARMOR</span><div><i></i><i></i><i></i></div></div></div>
+      <div class="weapon-info"><div class="weapon-name"><small>ASSAULT RIFLE</small><strong>VANGUARD <span>5.56</span></strong></div><div class="ammo-count"><strong id="ammo">30</strong><span>/ 180</span></div><div class="ammo-bar" id="ammo-bar"></div></div>
+      <div id="reload-indicator" class="reload-indicator" hidden>RELOADING <i></i><i></i><i></i></div>
+      <div id="toast" class="toast"></div>
+      <div class="mobile-controls" id="mobile-controls">
+        <div class="move-zone" id="move-zone"><div class="stick-base"><div class="stick-knob" id="stick-knob"></div></div></div>
+        <div class="look-zone" id="look-zone"></div>
+        <button class="touch-action reload-touch" id="reload-touch">↻</button>
+        <button class="touch-action aim-touch" id="aim-touch">◎</button>
+        <button class="touch-action fire-touch" id="fire-touch"><span>FIRE</span></button>
+        <button class="touch-action jump-touch" id="jump-touch">↑</button>
+      </div>
+    </section>
+
+    <section class="pause-screen" id="pause-screen" hidden><div class="pause-card"><span class="eyebrow">FIELD OPS / PAUSED</span><h2>Take a breath.</h2><p>Mission clock is standing by.</p><button class="deploy-btn" id="resume-btn"><span>RESUME OPERATION</span><b>→</b></button><button class="text-btn" id="leave-btn">RETURN TO MAIN MENU</button><div class="control-hint">WASD MOVE <i>·</i> MOUSE LOOK <i>·</i> CLICK FIRE <i>·</i> R RELOAD <i>·</i> ESC PAUSE</div></div></section>
+    <section class="end-screen" id="end-screen" hidden><div class="pause-card end-card"><span class="eyebrow">OPERATION COMPLETE</span><h2 id="end-title">Well played, operator.</h2><p id="end-subtitle">Your performance has been logged.</p><div class="end-stats"><div><strong id="end-kills">00</strong><span>ELIMINATIONS</span></div><div><strong id="end-accuracy">0%</strong><span>ACCURACY</span></div><div><strong id="end-time">00:00</strong><span>TIME ACTIVE</span></div></div><button class="deploy-btn" id="again-btn"><span>DEPLOY AGAIN</span><b>→</b></button><button class="text-btn" id="end-menu-btn">RETURN TO MAIN MENU</button></div></section>
+    <div class="mobile-hint" id="mobile-hint">DRAG LEFT TO MOVE · DRAG RIGHT TO LOOK · TAP FIRE</div>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
